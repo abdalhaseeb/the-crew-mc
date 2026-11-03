@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Crew MC — Abu Dhabi Motorcycle Club</title>
+<meta name="description" content="The Crew MC — a small family with a passion for bikes. Founded in Abu Dhabi in 2013, riding the roads of the UAE and beyond.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23111'/><text x='50' y='66' font-size='46' text-anchor='middle' fill='%23d4202a' font-family='Arial Black'>C</text></svg>">
+<style>
+  :root {
+    --bg: #0b0b0c;
+    --bg-2: #141416;
+    --bg-3: #1c1c1f;
+    --text: #f2f0eb;
+    --muted: #a19d95;
+    --red: #d4202a;
+    --red-dark: #9e1219;
+    --gold: #c9a24a;
+    --line: rgba(255,255,255,0.08);
+    --radius: 14px;
+    --max: 1180px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  h1, h2, h3, .display { font-family: "Oswald", Impact, sans-serif; text-transform: uppercase; letter-spacing: 0.02em; line-height: 1.05; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+  .eyebrow { color: var(--red); font-family: "Oswald", sans-serif; letter-spacing: 0.25em; font-size: 0.85rem; text-transform: uppercase; font-weight: 600; }
+  section { padding: 110px 0; }
+  .section-head { margin-bottom: 56px; max-width: 680px; }
+  .section-head h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); margin-top: 10px; }
+  .section-head p { color: var(--muted); margin-top: 16px; font-size: 1.05rem; }
+
+  /* Nav */
+  .nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 50;
+    transition: background .3s, border-color .3s;
+    border-bottom: 1px solid transparent;
+  }
+  .nav.scrolled { background: rgba(11,11,12,0.88); backdrop-filter: blur(12px); border-color: var(--line); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .brand { display: flex; align-items: center; gap: 12px; font-family: "Oswald", sans-serif; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.08em; }
+  .brand .badge { width: 40px; height: 40px; }
+  .nav-links { display: flex; gap: 32px; font-size: 0.92rem; font-weight: 500; }
+  .nav-links a { color: var(--muted); transition: color .2s; }
+  .nav-links a:hover { color: var(--text); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--red); color: #fff; padding: 14px 26px; border-radius: 999px;
+    font-weight: 600; font-size: 0.95rem; transition: background .2s, transform .2s;
+  }
+  .btn:hover { background: var(--red-dark); transform: translateY(-2px); }
+  .btn.ghost { background: transparent; border: 1px solid rgba(255,255,255,0.25); }
+  .btn.ghost:hover { border-color: var(--text); background: rgba(255,255,255,0.05); }
+  .nav .btn { padding: 10px 20px; font-size: 0.85rem; }
+  .menu-toggle { display: none; background: none; border: 0; color: var(--text); cursor: pointer; }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center; position: relative; padding: 140px 0 80px;
+    background:
+      radial-gradient(ellipse at 75% 30%, rgba(212,32,42,0.22), transparent 55%),
+      radial-gradient(ellipse at 10% 90%, rgba(201,162,74,0.10), transparent 50%),
+      var(--bg);
+    overflow: hidden;
+  }
+  .hero-road { position: absolute; inset: auto 0 0 0; height: 45%; opacity: 0.5; pointer-events: none; }
+  .hero .wrap { position: relative; display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: center; }
+  .hero h1 { font-size: clamp(3.4rem, 10vw, 8rem); font-weight: 700; }
+  .hero h1 .red { color: var(--red); }
+  .hero .tag { font-size: clamp(1.05rem, 2vw, 1.3rem); color: var(--muted); margin: 24px 0 36px; max-width: 520px; }
+  .hero .actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-badge { width: 100%; max-width: 420px; justify-self: center; filter: drop-shadow(0 30px 60px rgba(212,32,42,0.35)); animation: float 6s ease-in-out infinite; }
+  @keyframes float { 50% { transform: translateY(-14px); } }
+  .scroll-cue { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); color: var(--muted); font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase; }
+
+  /* Stats strip */
+  .stats { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--bg-2); padding: 0; }
+  .stats .wrap { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .stat { padding: 40px 20px; text-align: center; border-right: 1px solid var(--line); }
+  .stat:last-child { border-right: 0; }
+  .stat .num { font-family: "Oswald", sans-serif; font-size: 2.8rem; font-weight: 700; color: var(--text); }
+  .stat .num span { color: var(--red); }
+  .stat .lbl { color: var(--muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.15em; }
+
+  /* About */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .about-text p { color: var(--muted); font-size: 1.08rem; margin-bottom: 18px; }
+  .about-text p strong { color: var(--text); }
+  .values { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .value { background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; }
+  .value .ico { font-size: 1.6rem; margin-bottom: 12px; }
+  .value h3 { font-size: 1.2rem; margin-bottom: 6px; }
+  .value p { color: var(--muted); font-size: 0.93rem; }
+
+  /* Rides */
+  .rides { background: var(--bg-2); }
+  .ride-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .ride {
+    position: relative; border-radius: var(--radius); overflow: hidden; min-height: 320px;
+    display: flex; flex-direction: column; justify-content: flex-end; padding: 28px;
+    border: 1px solid var(--line); transition: transform .3s, border-color .3s;
+    isolation: isolate;
+  }
+  .ride:hover { transform: translateY(-6px); border-color: rgba(212,32,42,0.6); }
+  .ride .art { position: absolute; inset: 0; z-index: -2; }
+  .ride::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.85)); }
+  .ride .kind { display: inline-block; align-self: flex-start; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 999px; margin-bottom: 14px; }
+  .ride .kind.intl { border-color: var(--gold); color: var(--gold); }
+  .ride h3 { font-size: 1.8rem; }
+  .ride p { color: #d8d4cc; font-size: 0.95rem; margin-top: 8px; }
+  .ride.wide { grid-column: span 2; }
+
+  /* Events */
+  .events-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .event { background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; position: relative; overflow: hidden; }
+  .event::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--red); }
+  .event h3 { font-size: 1.6rem; margin-bottom: 10px; }
+  .event p { color: var(--muted); }
+
+  /* Join */
+  .join {
+    background:
+      linear-gradient(135deg, rgba(212,32,42,0.95), rgba(120,10,16,0.95)),
+      var(--red);
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .join .eyebrow { color: rgba(255,255,255,0.75); }
+  .join h2 { font-size: clamp(2.4rem, 6vw, 4.5rem); margin: 12px 0 20px; }
+  .join p { max-width: 600px; margin: 0 auto 36px; color: rgba(255,255,255,0.85); font-size: 1.1rem; }
+  .join .btn { background: #fff; color: var(--red-dark); }
+  .join .btn:hover { background: var(--text); }
+  .join .btn.ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,0.5); }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 900px; margin: 0 auto 44px; text-align: left; }
+  .step { background: rgba(0,0,0,0.2); border-radius: var(--radius); padding: 24px; }
+  .step .n { font-family: "Oswald", sans-serif; font-size: 2rem; opacity: 0.6; }
+  .step h3 { font-size: 1.15rem; margin: 4px 0 6px; }
+  .step p { margin: 0; font-size: 0.92rem; color: rgba(255,255,255,0.8); }
+
+  /* Footer */
+  footer { padding: 60px 0 40px; border-top: 1px solid var(--line); }
+  footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+  footer .social { display: flex; gap: 12px; }
+  footer .social a { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; transition: border-color .2s, background .2s; }
+  footer .social a:hover { border-color: var(--red); background: rgba(212,32,42,0.1); }
+  footer small { color: var(--muted); }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    section { padding: 80px 0; }
+    .hero .wrap, .about-grid { grid-template-columns: 1fr; }
+    .hero-badge { max-width: 260px; order: -1; }
+    .hero { text-align: center; }
+    .hero .tag { margin-left: auto; margin-right: auto; }
+    .hero .actions { justify-content: center; }
+    .stats .wrap { grid-template-columns: 1fr 1fr; }
+    .stat:nth-child(2) { border-right: 0; }
+    .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .ride-grid, .events-grid, .steps { grid-template-columns: 1fr; }
+    .ride.wide { grid-column: auto; }
+    .nav-links { display: none; position: absolute; top: 72px; left: 0; right: 0; flex-direction: column; gap: 0; background: rgba(11,11,12,0.97); border-bottom: 1px solid var(--line); }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 18px 20px; border-top: 1px solid var(--line); }
+    .menu-toggle { display: block; }
+    .nav .btn { display: none; }
+  }
+  @media (max-width: 520px) { .values { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-badge { animation: none; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Reusable club badge -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="badge" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="96" fill="#111" stroke="#c9a24a" stroke-width="3"/>
+      <circle cx="100" cy="100" r="84" fill="none" stroke="#d4202a" stroke-width="2" stroke-dasharray="4 5"/>
+      <path id="arcTop" d="M 30 100 A 70 70 0 0 1 170 100" fill="none"/>
+      <path id="arcBot" d="M 36 108 A 64 64 0 0 0 164 108" fill="none"/>
+      <text font-family="Oswald, Impact, sans-serif" font-weight="700" font-size="20" letter-spacing="5" fill="#f2f0eb"><textPath href="#arcTop" startOffset="50%" text-anchor="middle">THE CREW MC</textPath></text>
+      <text font-family="Oswald, Impact, sans-serif" font-weight="600" font-size="13" letter-spacing="4" fill="#c9a24a"><textPath href="#arcBot" startOffset="50%" text-anchor="middle">ABU DHABI · EST 2013</textPath></text>
+      <!-- winged wheel -->
+      <g transform="translate(100 102)">
+        <path d="M-14 -4 C -34 -18, -54 -14, -64 -26 C -58 -6, -42 2, -16 6 Z" fill="#d4202a"/>
+        <path d="M-14 4 C -32 0, -46 6, -56 0 C -48 14, -34 16, -16 12 Z" fill="#9e1219"/>
+        <path d="M14 -4 C 34 -18, 54 -14, 64 -26 C 58 -6, 42 2, 16 6 Z" fill="#d4202a"/>
+        <path d="M14 4 C 32 0, 46 6, 56 0 C 48 14, 34 16, 16 12 Z" fill="#9e1219"/>
+        <circle r="20" fill="#111" stroke="#f2f0eb" stroke-width="4"/>
+        <circle r="6" fill="#c9a24a"/>
+        <g stroke="#f2f0eb" stroke-width="2">
+          <line x1="0" y1="-18" x2="0" y2="18"/><line x1="-18" y1="0" x2="18" y2="0"/>
+          <line x1="-12.7" y1="-12.7" x2="12.7" y2="12.7"/><line x1="-12.7" y1="12.7" x2="12.7" y2="-12.7"/>
+        </g>
+        <text y="-30" text-anchor="middle" font-size="18" fill="#c9a24a">⚜</text>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="brand"><svg class="badge"><use href="#badge"/></svg>THE CREW</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#rides">Rides</a>
+      <a href="#events">Events</a>
+      <a href="#join">Join</a>
+    </div>
+    <a class="btn" href="https://www.instagram.com/the_crew_mc/" target="_blank" rel="noopener">Follow us</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <svg class="hero-road" viewBox="0 0 1200 400" preserveAspectRatio="none" aria-hidden="true">
+    <defs><linearGradient id="dune" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a1a12"/><stop offset="1" stop-color="#0b0b0c"/></linearGradient></defs>
+    <path d="M0 220 C 200 160, 380 200, 560 170 S 900 120, 1200 180 L1200 400 L0 400 Z" fill="url(#dune)"/>
+    <path d="M0 280 C 300 230, 520 270, 760 240 S 1050 220, 1200 250 L1200 400 L0 400 Z" fill="#120c09"/>
+    <path d="M600 400 L 640 240 L 660 240 L 720 400 Z" fill="#1a1a1c"/>
+    <g stroke="#c9a24a" stroke-width="3" stroke-dasharray="14 18" opacity=".7"><line x1="660" y1="400" x2="650" y2="244"/></g>
+  </svg>
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Abu Dhabi · Since 2013</div>
+      <h1>The Crew<br><span class="red">MC</span></h1>
+      <p class="tag">A small family with a passion for bikes. We ride the mountains, deserts and coastlines of the UAE — and take the crew international.</p>
+      <div class="actions">
+        <a class="btn" href="#join">Ride with us
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn ghost" href="#rides">See our rides</a>
+      </div>
+    </div>
+    <svg class="hero-badge" viewBox="0 0 200 200" role="img" aria-label="The Crew MC badge"><use href="#badge"/></svg>
+  </div>
+  <div class="scroll-cue">Scroll</div>
+</header>
+
+<div class="stats">
+  <div class="wrap">
+    <div class="stat"><div class="num">2013</div><div class="lbl">Founded</div></div>
+    <div class="stat"><div class="num" id="years">13<span>+</span></div><div class="lbl">Years on the road</div></div>
+    <div class="stat"><div class="num">1.6K<span>+</span></div><div class="lbl">Followers</div></div>
+    <div class="stat"><div class="num">UAE<span>+</span></div><div class="lbl">&amp; international rides</div></div>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <div class="about-text reveal">
+      <div class="eyebrow">Who we are</div>
+      <h2 style="font-size:clamp(2.2rem,5vw,3.6rem);margin:10px 0 24px">More than a club.<br>A family.</h2>
+      <p><strong>The Crew MC</strong> was founded in Abu Dhabi in 2013 by a group of riders who wanted more from the weekend than a solo spin. More than a decade later we're still a small, tight-knit family — bikes, trucks and the people who love them.</p>
+      <p>We organise group rides right across the UAE, from the switchbacks of Jebel Jais to the dunes of Liwa, plus international road trips for our members.</p>
+      <p>Whatever you ride, if you share the passion, there's a seat at our table.</p>
+    </div>
+    <div class="values reveal">
+      <div class="value"><div class="ico">🤝</div><h3>Brotherhood</h3><p>Every ride starts and ends together. Nobody gets left behind.</p></div>
+      <div class="value"><div class="ico">🛡️</div><h3>Safety first</h3><p>Briefings, sensible pace and proper gear on every outing.</p></div>
+      <div class="value"><div class="ico">🗺️</div><h3>Adventure</h3><p>Mountains, deserts, coastlines and borders — we go explore.</p></div>
+      <div class="value"><div class="ico">🏍️</div><h3>All brands</h3><p>Cruisers, sport, touring, adventure. Passion matters, not the badge.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="rides" id="rides">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Where we ride</div>
+      <h2>Roads we call home</h2>
+      <p>A taste of the routes the crew has ridden together — from local favourites to cross-border adventures.</p>
+    </div>
+    <div class="ride-grid">
+      <article class="ride wide reveal">
+        <svg class="art" viewBox="0 0 600 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="600" height="320" fill="#3b1f1a"/>
+          <circle cx="470" cy="80" r="40" fill="#f2a65a" opacity=".9"/>
+          <path d="M0 230 L120 110 L200 180 L300 60 L420 190 L500 130 L600 210 L600 320 L0 320Z" fill="#5a2c22"/>
+          <path d="M0 270 L140 170 L260 240 L380 150 L520 250 L600 220 L600 320 L0 320Z" fill="#2a1512"/>
+          <path d="M180 320 C 260 260, 200 230, 300 200 S 380 170, 330 140" stroke="#c9a24a" stroke-width="3" fill="none" stroke-dasharray="8 8"/>
+        </svg>
+        <span class="kind">Ras Al Khaimah</span>
+        <h3>Jebel Jais</h3>
+        <p>The UAE's highest peak and its most famous ribbon of tarmac — endless hairpins up to the clouds.</p>
+      </article>
+      <article class="ride reveal">
+        <svg class="art" viewBox="0 0 300 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="300" height="320" fill="#10303a"/>
+          <path d="M0 140 L70 70 L130 130 L200 50 L300 150 L300 320 L0 320Z" fill="#3a3a36"/>
+          <path d="M0 210 C 80 190, 200 230, 300 200 L300 320 L0 320Z" fill="#1d5f6e"/>
+          <path d="M0 240 C 100 225, 200 255, 300 235" stroke="#5fb3c4" stroke-width="2" fill="none" opacity=".6"/>
+        </svg>
+        <span class="kind intl">Oman</span>
+        <h3>Musandam</h3>
+        <p>Fjord-like cliffs and coastal roads across the border.</p>
+      </article>
+      <article class="ride reveal">
+        <svg class="art" viewBox="0 0 300 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="300" height="320" fill="#e08a3c"/>
+          <circle cx="80" cy="90" r="34" fill="#ffd27a"/>
+          <path d="M0 180 C 60 130, 140 170, 190 140 S 270 120, 300 150 L300 320 L0 320Z" fill="#c1652a"/>
+          <path d="M0 240 C 80 200, 170 250, 300 210 L300 320 L0 320Z" fill="#8a4019"/>
+        </svg>
+        <span class="kind">Abu Dhabi</span>
+        <h3>Liwa</h3>
+        <p>Desert highway to the edge of the Empty Quarter's giant dunes.</p>
+      </article>
+      <article class="ride reveal">
+        <svg class="art" viewBox="0 0 300 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="300" height="320" fill="#26262a"/>
+          <path d="M150 320 L140 0 L160 0 Z" fill="#3a3a3f"/>
+          <path d="M60 320 L145 0 L155 0 L240 320Z" fill="#1a1a1c"/>
+          <line x1="150" y1="320" x2="150" y2="0" stroke="#c9a24a" stroke-width="3" stroke-dasharray="16 16"/>
+        </svg>
+        <span class="kind">Abu Dhabi</span>
+        <h3>AUH · Sweihan · Al Ain</h3>
+        <p>Our classic loop — open roads out to the Garden City.</p>
+      </article>
+      <article class="ride reveal">
+        <svg class="art" viewBox="0 0 300 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="300" height="320" fill="#1e4d3a"/>
+          <path d="M0 200 C 60 160, 120 210, 180 170 S 260 150, 300 180 L300 320 L0 320Z" fill="#163a2b"/>
+          <g fill="#2f7a55"><circle cx="40" cy="140" r="30"/><circle cx="250" cy="120" r="36"/><circle cx="160" cy="150" r="22"/></g>
+          <path d="M150 320 C 120 260, 200 230, 170 190" stroke="#c9a24a" stroke-width="3" fill="none" stroke-dasharray="8 8"/>
+        </svg>
+        <span class="kind intl">International</span>
+        <h3>Crew Thailand</h3>
+        <p>The crew's international road trip through Thailand.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="events">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Beyond the ride</div>
+      <h2>Club days &amp; meetups</h2>
+      <p>Riding is only half of it. We get together for brand days, community events and the occasional drop.</p>
+    </div>
+    <div class="events-grid">
+      <div class="event reveal"><h3>HOB Day</h3><p>Brand community days where the crew rolls out together and meets fellow riders.</p></div>
+      <div class="event reveal"><h3>Honda Day</h3><p>Celebrating the machines and the people — a day out with the wider riding community.</p></div>
+      <div class="event reveal"><h3>Crew Drops 🔥</h3><p>Club merch and gear drops for members. Keep an eye on our Instagram for the next one.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="join" id="join">
+  <div class="wrap">
+    <div class="eyebrow">Join the family</div>
+    <h2>Ready to ride?</h2>
+    <p>We're always happy to meet riders who share the passion. The easiest way in is to say hello.</p>
+    <div class="steps">
+      <div class="step"><div class="n">01</div><h3>Send us a DM</h3><p>Message us on Instagram and tell us about you and your ride.</p></div>
+      <div class="step"><div class="n">02</div><h3>Meet the crew</h3><p>Join a meetup or an easy ride to get to know everyone.</p></div>
+      <div class="step"><div class="n">03</div><h3>Hit the road</h3><p>Ride with us across the UAE and on our international trips.</p></div>
+    </div>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a class="btn" href="https://ig.me/m/the_crew_mc" target="_blank" rel="noopener">DM us on Instagram</a>
+      <a class="btn ghost" href="https://www.instagram.com/the_crew_mc/" target="_blank" rel="noopener">@the_crew_mc</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a href="#top" class="brand"><svg class="badge"><use href="#badge"/></svg>THE CREW MC</a>
+    <div class="social">
+      <a href="https://www.instagram.com/the_crew_mc/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+      </a>
+      <a href="https://vm.tiktok.com/ZSJcQWFFe/" target="_blank" rel="noopener" aria-label="TikTok">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 1 1-2.59-2.59c.27 0 .53.04.77.12V9.77a5.7 5.7 0 1 0 4.91 5.63V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3a4.28 4.28 0 0 1-3.24-1.48Z"/></svg>
+      </a>
+    </div>
+    <small>© <span id="year"></span> The Crew MC · Founded in Abu Dhabi, 2013</small>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  const links = document.getElementById('navLinks');
+  document.getElementById('menuToggle').addEventListener('click', () => links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+  document.getElementById('years').innerHTML = (new Date().getFullYear() - 2013) + '<span>+</span>';
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
